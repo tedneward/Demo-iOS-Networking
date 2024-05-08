@@ -21,7 +21,8 @@ class ViewController: UIViewController {
   @IBAction func goPushed(_ sender: Any) {
     headersLabel.text! = ""
     bodyLabel.text! = "Sending request \nto \(addressField.text!)..."
-    
+
+    // {{## BEGIN create-url ##}}
     // Set up the request before we do the off-UI thread work
     let url = URL(string: self.addressField.text!)
     if url == nil {
@@ -29,7 +30,9 @@ class ViewController: UIViewController {
       NSLog("Bad address")
       return
     }
+    // {{## END create-url ##}}
 
+    // {{## BEGIN create-request ##}}
     var request = URLRequest(url: url!)
     request.httpMethod = "GET"
     
@@ -38,10 +41,12 @@ class ViewController: UIViewController {
     for (name, value) in headerFields! {
       headersLabel.text! = headersLabel.text! + "\(name) = \(value)\n"
     }
+    // {{## END create-request ##}}
     
     // Set up a spinner
     spinner.startAnimating()
-    
+
+    // {{## BEGIN start-task ##}}
     // Move to a background thread to do some long running work
     (URLSession.shared.dataTask(with: url!) {
       data, response, error in
@@ -74,6 +79,7 @@ class ViewController: UIViewController {
         self.spinner.stopAnimating()
       }
     }).resume()
+    // {{## END start-task ##}}
   }
   
   override func viewDidLoad() {
