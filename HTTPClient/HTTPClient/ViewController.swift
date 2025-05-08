@@ -60,7 +60,7 @@ class ViewController: UIViewController {
           var headers = ""
           headers = "\(response.statusCode)\n"
           for (name, value) in response.allHeaderFields {
-            headers += "\(name as! String) = \(value as! String))\n"
+            headers += "\(name as! String) = \(value as! String)\n"
           }
           self.headersLabel.text! = headers
           
